@@ -1,0 +1,20 @@
+PODS:
+  - Nimble (1.0.0)
+  - Quick (0.3.1)
+  - RxEasing (0.1.0)
+
+DEPENDENCIES:
+  - Nimble
+  - Quick (~> 0.3.1)
+  - RxEasing (from `../`)
+
+EXTERNAL SOURCES:
+  RxEasing:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
+  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
+  RxEasing: 752988254c9e3838096fd79b213d92b86f7c770b
+
+COCOAPODS: 0.38.2

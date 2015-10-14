@@ -1,0 +1,6 @@
+framework module RxEasing {
+  umbrella header "RxEasing-umbrella.h"
+
+  export *
+  module * { export * }
+}
