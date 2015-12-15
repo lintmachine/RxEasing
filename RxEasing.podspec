@@ -8,16 +8,12 @@
 
 Pod::Spec.new do |s|
   s.name             = "RxEasing"
-  s.version          = "0.1.0"
+  s.version          = "0.9.0"
   s.summary          = "An easing library for use with RxSwift."
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!  
   s.description      = <<-DESC
-                       DESC
+    RxEasing provides a few utility functions for applying easing functions to RxSwift Observable streams.
+  DESC
 
   s.homepage         = "https://github.com/lintmachine/RxEasing"
   s.license          = 'MIT'
@@ -29,9 +25,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'RxEasing' => ['Pod/Assets/*.png']
-  }
 
-  s.dependency 'RxSwift', '~> 2.0.0-alpha.3'
+  s.dependency 'RxSwift', '~> 2.0.0-beta.4'
 end
