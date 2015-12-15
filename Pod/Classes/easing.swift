@@ -17,37 +17,37 @@
 
 import UIKit
 
-let M_PI_2_f = Float(M_PI_2)
-let M_PI_f = Float(M_PI)
+let M_PI_2_f = Double(M_PI_2)
+let M_PI_f = Double(M_PI)
 
-typealias AHEasingFunction = (Float)->Float
+typealias AHEasingFunction = (Double)->Double
 
-func dub(num:Float)->Float {
-    return (Float(Int32(num)))
+func dub(num:Double)->Double {
+    return (Double(Int32(num)))
 }
-func sinFloat(num:Float)->Float {
+func sinDouble(num:Double)->Double {
     return sin(num)
 }
 
-func NoInterpolation(p:Float)->Float
+func NoInterpolation(p:Double)->Double
 {
     return 1.0;
 }
 
 // Modeled after the line y = x
-func LinearInterpolation(p:Float)->Float
+func LinearInterpolation(p:Double)->Double
 {
     return p;
 }
 
 // Modeled after the parabola y = x^2
-func  QuadraticEaseIn(p:Float)->Float
+func  QuadraticEaseIn(p:Double)->Double
 {
     return p * p;
 }
 
 // Modeled after the parabola y = -x^2 + 2x
-func QuadraticEaseOut(p:Float)->Float
+func QuadraticEaseOut(p:Double)->Double
 {
     return -(p * (p - 2));
 }
@@ -55,7 +55,7 @@ func QuadraticEaseOut(p:Float)->Float
 // Modeled after the piecewise quadratic
 // y = (1/2)((2x)^2)             ; [0, 0.5)
 // y = -(1/2)((2x-1)*(2x-3) - 1) ; [0.5, 1]
-func QuadraticEaseInOut(p:Float)->Float
+func QuadraticEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
@@ -68,22 +68,22 @@ func QuadraticEaseInOut(p:Float)->Float
 }
 
 // Modeled after the cubic y = x^3
-func CubicEaseIn(p:Float)->Float
+func CubicEaseIn(p:Double)->Double
 {
     return p * p * p;
 }
 
 // Modeled after the cubic y = (x - 1)^3 + 1
-func CubicEaseOut(p:Float)->Float
+func CubicEaseOut(p:Double)->Double
 {
-    let f:Float = (p - 1);
+    let f:Double = (p - 1);
     return f * f * f + 1;
 }
 
 // Modeled after the piecewise cubic
 // y = (1/2)((2x)^3)       ; [0, 0.5)
 // y = (1/2)((2x-2)^3 + 2) ; [0.5, 1]
-func CubicEaseInOut(p:Float)->Float
+func CubicEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
@@ -91,28 +91,28 @@ func CubicEaseInOut(p:Float)->Float
     }
     else
     {
-        let f:Float = ((2 * p) - 2);
+        let f:Double = ((2 * p) - 2);
         return 0.5 * f * f * f + 1;
     }
 }
 
 // Modeled after the quartic x^4
-func QuarticEaseIn(p:Float)->Float
+func QuarticEaseIn(p:Double)->Double
 {
     return p * p * p * p;
 }
 
 // Modeled after the quartic y = 1 - (x - 1)^4
-func QuarticEaseOut(p:Float)->Float
+func QuarticEaseOut(p:Double)->Double
 {
-    let f:Float = (p - 1);
+    let f:Double = (p - 1);
     return f * f * f * (1 - p) + 1;
 }
 
 // Modeled after the piecewise quartic
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
-func QuarticEaseInOut(p:Float)->Float
+func QuarticEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
@@ -120,28 +120,28 @@ func QuarticEaseInOut(p:Float)->Float
     }
     else
     {
-        let f:Float = (p - 1);
+        let f:Double = (p - 1);
         return -8 * f * f * f * f + 1;
     }
 }
 
 // Modeled after the quintic y = x^5
-func QuinticEaseIn(p:Float)->Float
+func QuinticEaseIn(p:Double)->Double
 {
     return p * p * p * p * p;
 }
 
 // Modeled after the quintic y = (x - 1)^5 + 1
-func QuinticEaseOut(p:Float)->Float
+func QuinticEaseOut(p:Double)->Double
 {
-    let f:Float = (p - 1);
+    let f:Double = (p - 1);
     return f * f * f * f * f + 1;
 }
 
 // Modeled after the piecewise quintic
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
-func QuinticEaseInOut(p:Float)->Float
+func QuinticEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
@@ -149,37 +149,37 @@ func QuinticEaseInOut(p:Float)->Float
     }
     else
     {
-        let f:Float = ((2 * p) - 2);
+        let f:Double = ((2 * p) - 2);
         return  0.5 * f * f * f * f * f + 1;
     }
 }
 
 // Modeled after quarter-cycle of sine wave
-func SineEaseIn(p:Float)->Float
+func SineEaseIn(p:Double)->Double
 {
-    return sinFloat((p - 1.0) * M_PI_2_f)+1.0
+    return sinDouble((p - 1.0) * M_PI_2_f)+1.0
 }
 
 // Modeled after quarter-cycle of sine wave (different phase)
-func SineEaseOut(p:Float)->Float
+func SineEaseOut(p:Double)->Double
 {
-    return sinFloat(p * M_PI_2_f)
+    return sinDouble(p * M_PI_2_f)
 }
 
 // Modeled after half sine wave
-func SineEaseInOut(p:Float)->Float
+func SineEaseInOut(p:Double)->Double
 {
     return 0.5 * (1.0 - cos(p * M_PI_f));
 }
 
 // Modeled after shifted quadrant IV of unit circle
-func CircularEaseIn(p:Float)->Float
+func CircularEaseIn(p:Double)->Double
 {
     return 1 - sqrt(1 - (p * p));
 }
 
 // Modeled after shifted quadrant II of unit circle
-func CircularEaseOut(p:Float)->Float
+func CircularEaseOut(p:Double)->Double
 {
     return sqrt((2 - p) * p);
 }
@@ -187,7 +187,7 @@ func CircularEaseOut(p:Float)->Float
 // Modeled after the piecewise circular function
 // y = (1/2)(1 - sqrt(1 - 4x^2))           ; [0, 0.5)
 // y = (1/2)(sqrt(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
-func CircularEaseInOut(p:Float)->Float
+func CircularEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
@@ -200,13 +200,13 @@ func CircularEaseInOut(p:Float)->Float
 }
 
 // Modeled after the exponential function y = 2^(10(x - 1))
-func ExponentialEaseIn(p:Float)->Float
+func ExponentialEaseIn(p:Double)->Double
 {
     return (p == 0.0) ? p : pow(2, 10 * (p - 1));
 }
 
 // Modeled after the exponential function y = -2^(-10x) + 1
-func ExponentialEaseOut(p:Float)->Float
+func ExponentialEaseOut(p:Double)->Double
 {
     return (p == 1.0) ? p : 1 - pow(2, -10 * p);
 }
@@ -214,7 +214,7 @@ func ExponentialEaseOut(p:Float)->Float
 // Modeled after the piecewise exponential
 // y = (1/2)2^(10(2x - 1))         ; [0,0.5)
 // y = -(1/2)*2^(-10(2x - 1))) + 1 ; [0.5,1]
-func ExponentialEaseInOut(p:Float)->Float
+func ExponentialEaseInOut(p:Double)->Double
 {
     if(p == 0.0 || p == 1.0) { return p; }
     
@@ -229,68 +229,68 @@ func ExponentialEaseInOut(p:Float)->Float
 }
 
 // Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1))
-func ElasticEaseIn(p:Float)->Float
+func ElasticEaseIn(p:Double)->Double
 {
-    return sinFloat(13 * M_PI_2_f * p) * pow(2, 10.0 * (p - 1.0));
+    return sinDouble(13 * M_PI_2_f * p) * pow(2, 10.0 * (p - 1.0));
 }
 
 // Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1
-func ElasticEaseOut(p:Float)->Float
+func ElasticEaseOut(p:Double)->Double
 {
-    return sinFloat(-13 * M_PI_2_f * (p + 1)) * pow(2, -10 * p) + 1;
+    return sinDouble(-13 * M_PI_2_f * (p + 1)) * pow(2, -10 * p) + 1;
 }
 
 // Modeled after the piecewise exponentially-damped sine wave:
 // y = (1/2)*sin(13pi/2*(2*x))*pow(2, 10 * ((2*x) - 1))      ; [0,0.5)
 // y = (1/2)*(sin(-13pi/2*((2x-1)+1))*pow(2,-10(2*x-1)) + 2) ; [0.5, 1]
-func ElasticEaseInOut(p:Float)->Float
+func ElasticEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
-        return 0.5 * sinFloat(13.0 * M_PI_2_f * (2 * p)) * pow(2, 10 * ((2 * p) - 1));
+        return 0.5 * sinDouble(13.0 * M_PI_2_f * (2 * p)) * pow(2, 10 * ((2 * p) - 1));
     }
     else
     {
-        return 0.5 * (sinFloat(-13 * M_PI_2_f * ((2 * p - 1) + 1)) * pow(2, -10 * (2 * p - 1)) + 2);
+        return 0.5 * (sinDouble(-13 * M_PI_2_f * ((2 * p - 1) + 1)) * pow(2, -10 * (2 * p - 1)) + 2);
     }
 }
 
 // Modeled after the overshooting cubic y = x^3-x*sin(x*pi)
-func BackEaseIn(p:Float)->Float
+func BackEaseIn(p:Double)->Double
 {
-    return p * p * p - p * sinFloat(p * M_PI_f);
+    return p * p * p - p * sinDouble(p * M_PI_f);
 }
 
 // Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi))
-func BackEaseOut(p:Float)->Float
+func BackEaseOut(p:Double)->Double
 {
-    let f:Float = (1 - p);
-    return 1 - (f * f * f - f * sinFloat(f * M_PI_f));
+    let f:Double = (1 - p);
+    return 1 - (f * f * f - f * sinDouble(f * M_PI_f));
 }
 
 // Modeled after the piecewise overshooting cubic function:
 // y = (1/2)*((2x)^3-(2x)*sin(2*x*pi))           ; [0, 0.5)
 // y = (1/2)*(1-((1-x)^3-(1-x)*sin((1-x)*pi))+1) ; [0.5, 1]
-func BackEaseInOut(p:Float)->Float
+func BackEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
-        let f:Float = 2 * p;
-        return 0.5 * (f * f * f - f * sinFloat(f * M_PI_f));
+        let f:Double = 2 * p;
+        return 0.5 * (f * f * f - f * sinDouble(f * M_PI_f));
     }
     else
     {
-        let f:Float = (1 - (2*p - 1));
-        return 0.5 * (1 - (f * f * f - f * sinFloat(f * M_PI_f))) + 0.5;
+        let f:Double = (1 - (2*p - 1));
+        return 0.5 * (1 - (f * f * f - f * sinDouble(f * M_PI_f))) + 0.5;
     }
 }
 
-func BounceEaseIn(p:Float)->Float
+func BounceEaseIn(p:Double)->Double
 {
     return 1 - BounceEaseOut(1 - p);
 }
 
-func BounceEaseOut(p:Float)->Float
+func BounceEaseOut(p:Double)->Double
 {
     if(p < 4/11.0)
     {
@@ -310,7 +310,7 @@ func BounceEaseOut(p:Float)->Float
     }
 }
 
-func BounceEaseInOut(p:Float)->Float
+func BounceEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {

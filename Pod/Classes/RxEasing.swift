@@ -12,9 +12,10 @@ import RxSwift
 
 public class RxEasing : NSObject {
     
-    public typealias EasingFunction = (Float) -> Float
+    public typealias EasingFunction = (Double) -> Double
     
-    public enum EasingType: UInt {
+    // Enum of standard easing functions
+    public enum EasingType: Int {
         case NoInterpolation = 0
         case LinearInterpolation
         case QuadraticEaseIn
@@ -51,6 +52,7 @@ public class RxEasing : NSObject {
         case NumTypes
     }
     
+    // Maps a stream of EasingType values to a stream of easing functions
     public class func easingFunctionForType(typeObservable:Observable<EasingType>) -> Observable<EasingFunction> {
         return typeObservable.map {
             (easingType:EasingType) -> EasingFunction in
@@ -58,6 +60,7 @@ public class RxEasing : NSObject {
         }
     }
     
+    // Maps an EasingType value to an easing functions
     public class func easingFunctionForType(easingType:EasingType) -> EasingFunction {
         switch easingType {
         case EasingType.NoInterpolation:
@@ -129,20 +132,31 @@ public class RxEasing : NSObject {
         }
     }
     
-    public class func easeValues(values:Observable<Float>, withRangeMin min:Float, rangeMax max:Float, easing:EasingFunction) -> Observable<Float> {
+    // Apply the easing function to a stream of values. 
+    // Input stream values are expected to be within the range specified by min and max. Output values are in the normalized range of 0.0 - 1.0.
+    public class func easeValues(values:Observable<Double>, withRangeMin min:Double, rangeMax max:Double, easing:EasingFunction) -> Observable<Double> {
         return values.map {
-            (value:Float) -> Float in
+            (value:Double) -> Double in
             return easing(normalizeValueWithinRange(value, min: min, max: max))
         }
     }
+
+    // Scale the stream of normalized values to the specified range.
+    // Input stream values are expected to be within the normalized range of 0.0 - 1.0. Output values are scaled to the range specified by min and max.
+    public class func scaleNormalizedValues(values:Observable<Double>, toRangeMin min:Double, rangeMax max:Double) -> Observable<Double> {
+        return values.map {
+            (value:Double) -> Double in
+            return scaleNormalizedToRange(value, min: min, max: max)
+        }
+    }
     
-    public class func scaleNormalizedToRange(normalized:Float, min:Float, max:Float) -> Float {
+    public class func scaleNormalizedToRange(normalized:Double, min:Double, max:Double) -> Double {
         let range = max - min
         let distance = normalized * range
         return distance + min
     }
     
-    public class func normalizeValueWithinRange(value:Float, min:Float, max:Float) -> Float {
+    public class func normalizeValueWithinRange(value:Double, min:Double, max:Double) -> Double {
         let range = max - min
         let distance = value - min
         if range > 0.0 {

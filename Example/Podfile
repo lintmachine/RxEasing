@@ -3,11 +3,6 @@ use_frameworks!
 
 target 'RxEasing_Example', :exclusive => true do
   pod "RxEasing", :path => "../"
-end
-
-target 'RxEasing_Tests', :exclusive => true do
-  pod "RxEasing", :path => "../"
-
-  pod 'Quick', '~> 0.3.1'
-  pod 'Nimble'
+  pod 'RxCocoa', '~> 2.0.0-beta.4'
+  pod 'JBChartView', '~> 2.8'
 end
