@@ -1,14 +1,14 @@
 PODS:
   - JBChartView (2.9.1)
-  - RxCocoa (2.0.0):
+  - RxCocoa (2.1.0):
     - RxSwift (~> 2.0)
   - RxEasing (0.9.1):
-    - RxSwift (~> 2.0)
-  - RxSwift (2.0.0)
+    - RxSwift (~> 2.1)
+  - RxSwift (2.1.0)
 
 DEPENDENCIES:
   - JBChartView (~> 2.8)
-  - RxCocoa (~> 2.0.0-beta.4)
+  - RxCocoa (~> 2.1)
   - RxEasing (from `../`)
 
 EXTERNAL SOURCES:
@@ -17,8 +17,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   JBChartView: ca18e487c3d3ee68753716d41b260106e2859f63
-  RxCocoa: b0ebd70b4f7450bdb3c8987b122f8fd568dc1e2f
-  RxEasing: cf5e4c30d7bb725f25e89b51bf94ddb708409969
-  RxSwift: d83246efa6f16c50c143bec134649d045498f601
+  RxCocoa: 79b5feb8378545336e756a0a33fcf5e95050b71c
+  RxEasing: 1f714a1981575ae081ee71e3209fd8ee5c909856
+  RxSwift: 110fb07f81c17c2c3b3254d168363057b1880d18
 
 COCOAPODS: 0.39.0
