@@ -157,13 +157,13 @@ func QuinticEaseInOut(p:Double)->Double
 // Modeled after quarter-cycle of sine wave
 func SineEaseIn(p:Double)->Double
 {
-    return sinDouble((p - 1.0) * M_PI_2_f)+1.0
+    return sinDouble(num: (p - 1.0) * M_PI_2_f)+1.0
 }
 
 // Modeled after quarter-cycle of sine wave (different phase)
 func SineEaseOut(p:Double)->Double
 {
-    return sinDouble(p * M_PI_2_f)
+    return sinDouble(num: p * M_PI_2_f)
 }
 
 // Modeled after half sine wave
@@ -231,13 +231,13 @@ func ExponentialEaseInOut(p:Double)->Double
 // Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1))
 func ElasticEaseIn(p:Double)->Double
 {
-    return sinDouble(13 * M_PI_2_f * p) * pow(2, 10.0 * (p - 1.0));
+    return sinDouble(num: 13 * M_PI_2_f * p) * pow(2, 10.0 * (p - 1.0));
 }
 
 // Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1
 func ElasticEaseOut(p:Double)->Double
 {
-    return sinDouble(-13 * M_PI_2_f * (p + 1)) * pow(2, -10 * p) + 1;
+    return sinDouble(num: -13 * M_PI_2_f * (p + 1)) * pow(2, -10 * p) + 1;
 }
 
 // Modeled after the piecewise exponentially-damped sine wave:
@@ -247,25 +247,25 @@ func ElasticEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
-        return 0.5 * sinDouble(13.0 * M_PI_2_f * (2 * p)) * pow(2, 10 * ((2 * p) - 1));
+        return 0.5 * sinDouble(num: 13.0 * M_PI_2_f * (2 * p)) * pow(2, 10 * ((2 * p) - 1));
     }
     else
     {
-        return 0.5 * (sinDouble(-13 * M_PI_2_f * ((2 * p - 1) + 1)) * pow(2, -10 * (2 * p - 1)) + 2);
+        return 0.5 * (sinDouble(num: -13 * M_PI_2_f * ((2 * p - 1) + 1)) * pow(2, -10 * (2 * p - 1)) + 2);
     }
 }
 
 // Modeled after the overshooting cubic y = x^3-x*sin(x*pi)
 func BackEaseIn(p:Double)->Double
 {
-    return p * p * p - p * sinDouble(p * M_PI_f);
+    return p * p * p - p * sinDouble(num: p * M_PI_f);
 }
 
 // Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi))
 func BackEaseOut(p:Double)->Double
 {
     let f:Double = (1 - p);
-    return 1 - (f * f * f - f * sinDouble(f * M_PI_f));
+    return 1 - (f * f * f - f * sinDouble(num: f * M_PI_f));
 }
 
 // Modeled after the piecewise overshooting cubic function:
@@ -276,18 +276,18 @@ func BackEaseInOut(p:Double)->Double
     if(p < 0.5)
     {
         let f:Double = 2 * p;
-        return 0.5 * (f * f * f - f * sinDouble(f * M_PI_f));
+        return 0.5 * (f * f * f - f * sinDouble(num: f * M_PI_f));
     }
     else
     {
         let f:Double = (1 - (2*p - 1));
-        return 0.5 * (1 - (f * f * f - f * sinDouble(f * M_PI_f))) + 0.5;
+        return 0.5 * (1 - (f * f * f - f * sinDouble(num: f * M_PI_f))) + 0.5;
     }
 }
 
 func BounceEaseIn(p:Double)->Double
 {
-    return 1 - BounceEaseOut(1 - p);
+    return 1 - BounceEaseOut(p: 1 - p);
 }
 
 func BounceEaseOut(p:Double)->Double
@@ -314,10 +314,10 @@ func BounceEaseInOut(p:Double)->Double
 {
     if(p < 0.5)
     {
-        return 0.5 * BounceEaseIn(p*2);
+        return 0.5 * BounceEaseIn(p: p*2);
     }
     else
     {
-        return 0.5 * BounceEaseOut(p * 2 - 1) + 0.5;
+        return 0.5 * BounceEaseOut(p: p * 2 - 1) + 0.5;
     }
 }

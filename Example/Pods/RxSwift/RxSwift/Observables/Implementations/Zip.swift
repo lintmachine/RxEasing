@@ -3,16 +3,16 @@
 //  RxSwift
 //
 //  Created by Krunoslav Zaher on 5/23/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
 
 protocol ZipSinkProtocol : class
 {
-    func next(index: Int)
-    func fail(error: ErrorType)
-    func done(index: Int)
+    func next(_ index: Int)
+    func fail(_ error: Swift.Error)
+    func done(_ index: Int)
 }
 
 class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
@@ -25,38 +25,38 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
     // state
     private var _isDone: [Bool]
     
-    init(arity: Int, observer: O) {
-        _isDone = [Bool](count: arity, repeatedValue: false)
+    init(arity: Int, observer: O, cancel: Cancelable) {
+        _isDone = [Bool](repeating: false, count: arity)
         _arity = arity
         
-        super.init(observer: observer)
+        super.init(observer: observer, cancel: cancel)
     }
 
     func getResult() throws -> Element {
         abstractMethod()
     }
     
-    func hasElements(index: Int) -> Bool {
+    func hasElements(_ index: Int) -> Bool {
         abstractMethod()
     }
     
-    func next(index: Int) {
+    func next(_ index: Int) {
         var hasValueAll = true
         
         for i in 0 ..< _arity {
             if !hasElements(i) {
-                hasValueAll = false;
-                break;
+                hasValueAll = false
+                break
             }
         }
         
         if hasValueAll {
             do {
                 let result = try getResult()
-                self.forwardOn(.Next(result))
+                self.forwardOn(.next(result))
             }
             catch let e {
-                self.forwardOn(.Error(e))
+                self.forwardOn(.error(e))
                 dispose()
             }
         }
@@ -64,7 +64,7 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
             var allOthersDone = true
             
             let arity = _isDone.count
-            for var i = 0; i < arity; ++i {
+            for i in 0 ..< arity {
                 if i != index && !_isDone[i] {
                     allOthersDone = false
                     break
@@ -72,18 +72,18 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
             }
             
             if allOthersDone {
-                forwardOn(.Completed)
+                forwardOn(.completed)
                 self.dispose()
             }
         }
     }
     
-    func fail(error: ErrorType) {
-        forwardOn(.Error(error))
+    func fail(_ error: Swift.Error) {
+        forwardOn(.error(error))
         dispose()
     }
     
-    func done(index: Int) {
+    func done(_ index: Int) {
         _isDone[index] = true
         
         var allDone = true
@@ -96,7 +96,7 @@ class ZipSink<O: ObserverType> : Sink<O>, ZipSinkProtocol {
         }
         
         if allDone {
-            forwardOn(.Completed)
+            forwardOn(.completed)
             dispose()
         }
     }
@@ -118,7 +118,7 @@ class ZipObserver<ElementType>
     private let _this: Disposable
     private let _setNextValue: ValueSetter
     
-    init(lock: NSRecursiveLock, parent: ZipSinkProtocol, index: Int, setNextValue: ValueSetter, this: Disposable) {
+    init(lock: NSRecursiveLock, parent: ZipSinkProtocol, index: Int, setNextValue: @escaping ValueSetter, this: Disposable) {
         _lock = lock
         _parent = parent
         _index = index
@@ -126,30 +126,30 @@ class ZipObserver<ElementType>
         _setNextValue = setNextValue
     }
     
-    func on(event: Event<E>) {
+    func on(_ event: Event<E>) {
         synchronizedOn(event)
     }
 
-    func _synchronized_on(event: Event<E>) {
+    func _synchronized_on(_ event: Event<E>) {
         if let _ = _parent {
             switch event {
-            case .Next(_):
+            case .next(_):
                 break
-            case .Error(_):
+            case .error(_):
                 _this.dispose()
-            case .Completed:
+            case .completed:
                 _this.dispose()
             }
         }
         
         if let parent = _parent {
             switch event {
-            case .Next(let value):
+            case .next(let value):
                 _setNextValue(value)
                 parent.next(_index)
-            case .Error(let error):
+            case .error(let error):
                 parent.fail(error)
-            case .Completed:
+            case .completed:
                 parent.done(_index)
             }
         }

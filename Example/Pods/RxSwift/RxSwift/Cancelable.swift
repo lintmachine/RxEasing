@@ -1,19 +1,15 @@
 //
 //  Cancelable.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 3/12/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
 
-/**
-Represents disposable resource with state tracking.
-*/
+/// Represents disposable resource with state tracking.
 public protocol Cancelable : Disposable {
-    /**
-    - returns: Was resource disposed.
-    */
-    var disposed: Bool { get }
+    /// Was resource disposed.
+    var isDisposed: Bool { get }
 }

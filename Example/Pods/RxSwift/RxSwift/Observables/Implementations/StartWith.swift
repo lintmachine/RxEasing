@@ -1,9 +1,9 @@
 //
 //  StartWith.swift
-//  RxCocoa
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 4/6/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
@@ -18,11 +18,11 @@ class StartWith<Element>: Producer<Element> {
         super.init()
     }
 
-    override func run<O : ObserverType where O.E == Element>(observer: O) -> Disposable {
+    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         for e in elements {
-            observer.on(.Next(e))
+            observer.on(.next(e))
         }
 
-        return source.subscribe(observer)
+        return (sink: Disposables.create(), subscription: source.subscribe(observer))
     }
 }

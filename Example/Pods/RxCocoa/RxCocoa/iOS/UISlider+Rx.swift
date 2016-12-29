@@ -3,7 +3,7 @@
 //  RxCocoa
 //
 //  Created by Alexander van der Werff on 28/05/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 #if os(iOS)
@@ -14,17 +14,18 @@ import RxSwift
 #endif
 import UIKit
 
-extension UISlider {
+extension Reactive where Base: UISlider {
     
-    /**
-    Reactive wrapper for `value` property.
-    */
-    public var rx_value: ControlProperty<Float> {
-        return rx_value(getter: { [unowned self] in
-            self.value
-        }, setter: { [weak self] value in
-            self?.value = value
-        })
+    /// Reactive wrapper for `value` property.
+    public var value: ControlProperty<Float> {
+        return UIControl.rx.value(
+            self.base,
+            getter: { slider in
+                slider.value
+            }, setter: { slider, value in
+                slider.value = value
+            }
+        )
     }
     
 }

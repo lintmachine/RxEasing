@@ -1,125 +1,152 @@
 //
 //  TailRecursiveSink.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 3/21/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
 
 enum TailRecursiveSinkCommand {
-    case MoveNext
-    case Dispose
+    case moveNext
+    case dispose
 }
 
+#if DEBUG || TRACE_RESOURCES
+    public var maxTailRecursiveSinkStackSize = 0
+#endif
+
 /// This class is usually used with `Generator` version of the operators.
-class TailRecursiveSink<S: SequenceType, O: ObserverType where S.Generator.Element: ObservableConvertibleType, S.Generator.Element.E == O.E>
+class TailRecursiveSink<S: Sequence, O: ObserverType>
     : Sink<O>
-    , InvocableWithValueType {
+    , InvocableWithValueType where S.Iterator.Element: ObservableConvertibleType, S.Iterator.Element.E == O.E {
     typealias Value = TailRecursiveSinkCommand
     typealias E = O.E
-    
-    var _generators:[S.Generator] = []
-    var _disposed = false
+    typealias SequenceGenerator = (generator: S.Iterator, remaining: IntMax?)
+
+    var _generators: [SequenceGenerator] = []
+    var _isDisposed = false
     var _subscription = SerialDisposable()
-    
+
     // this is thread safe object
     var _gate = AsyncLock<InvocableScheduledItem<TailRecursiveSink<S, O>>>()
-    
-    override init(observer: O) {
-        super.init(observer: observer)
+
+    override init(observer: O, cancel: Cancelable) {
+        super.init(observer: observer, cancel: cancel)
     }
-    
-    func run(sources: S.Generator) -> Disposable {
+
+    func run(_ sources: SequenceGenerator) -> Disposable {
         _generators.append(sources)
 
-        schedule(.MoveNext)
-        
+        schedule(.moveNext)
+
         return _subscription
     }
 
-    func invoke(command: TailRecursiveSinkCommand) {
+    func invoke(_ command: TailRecursiveSinkCommand) {
         switch command {
-            case .Dispose:
-                disposeCommand()
-            case .MoveNext:
-                moveNextCommand()
+        case .dispose:
+            disposeCommand()
+        case .moveNext:
+            moveNextCommand()
         }
     }
-    
+
     // simple implementation for now
-    func schedule(command: TailRecursiveSinkCommand) {
+    func schedule(_ command: TailRecursiveSinkCommand) {
         _gate.invoke(InvocableScheduledItem(invocable: self, state: command))
     }
 
     func done() {
-        forwardOn(.Completed)
+        forwardOn(.completed)
         dispose()
     }
-    
-    func extract(observable: Observable<E>) -> S.Generator? {
+
+    func extract(_ observable: Observable<E>) -> SequenceGenerator? {
         abstractMethod()
     }
-    
+
     // should be done on gate locked
 
     private func moveNextCommand() {
         var next: Observable<E>? = nil
-        
+
         repeat {
-            if _generators.count == 0 {
+            guard let (g, left) = _generators.last else {
                 break
             }
             
-            if _disposed {
+            if _isDisposed {
                 return
             }
-            
-            var e = _generators.last!
-            
-            let nextCandidate = e.next()?.asObservable()
-            _generators.removeLast()
-            _generators.append(e)
 
-            if nextCandidate == nil {
-                _generators.removeLast()
-                continue;
+            _generators.removeLast()
+            
+            var e = g
+
+            guard let nextCandidate = e.next()?.asObservable() else {
+                continue
             }
-       
-            let nextGenerator = extract(nextCandidate!)
-        
+
+            // `left` is a hint of how many elements are left in generator.
+            // In case this is the last element, then there is no need to push
+            // that generator on stack.
+            //
+            // This is an optimization used to make sure in tail recursive case
+            // there is no memory leak in case this operator is used to generate non terminating
+            // sequence.
+
+            if let knownOriginalLeft = left {
+                // `- 1` because generator.next() has just been called
+                if knownOriginalLeft - 1 >= 1 {
+                    _generators.append((e, knownOriginalLeft - 1))
+                }
+            }
+            else {
+                _generators.append((e, nil))
+            }
+
+            let nextGenerator = extract(nextCandidate)
+
             if let nextGenerator = nextGenerator {
-                self._generators.append(nextGenerator)
+                _generators.append(nextGenerator)
+                #if DEBUG || TRACE_RESOURCES
+                    if maxTailRecursiveSinkStackSize < _generators.count {
+                        maxTailRecursiveSinkStackSize = _generators.count
+                    }
+                #endif
             }
             else {
                 next = nextCandidate
             }
         } while next == nil
-        
+
         if next == nil  {
             done()
             return
         }
-        
-        let subscription2 = subscribeToNext(next!)
-        _subscription.disposable = subscription2
+
+        let disposable = SingleAssignmentDisposable()
+        _subscription.disposable = disposable
+        disposable.setDisposable(subscribeToNext(next!))
     }
 
-    func subscribeToNext(source: Observable<E>) -> Disposable {
+    func subscribeToNext(_ source: Observable<E>) -> Disposable {
         abstractMethod()
     }
 
     func disposeCommand() {
-        _disposed = true
-        _generators.removeAll(keepCapacity: false)
+        _isDisposed = true
+        _generators.removeAll(keepingCapacity: false)
     }
 
     override func dispose() {
         super.dispose()
-
+        
         _subscription.dispose()
-
-        schedule(.Dispose)
+        
+        schedule(.dispose)
     }
 }
+

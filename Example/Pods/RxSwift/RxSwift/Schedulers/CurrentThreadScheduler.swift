@@ -1,106 +1,63 @@
 //
 //  CurrentThreadScheduler.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 8/30/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
+import Dispatch
 
-let CurrentThreadSchedulerKeyInstance = CurrentThreadSchedulerKey()
-let CurrentThreadSchedulerQueueKeyInstance = CurrentThreadSchedulerQueueKey()
+let CurrentThreadSchedulerKeyInstance       = "RxSwift.CurrentThreadScheduler.SchedulerKey"
+let CurrentThreadSchedulerQueueKeyInstance  = "RxSwift.CurrentThreadScheduler.Queue"
 
-class CurrentThreadSchedulerKey : NSObject, NSCopying {
-    override func isEqual(object: AnyObject?) -> Bool {
-        return object === CurrentThreadSchedulerKeyInstance
-    }
-    
-    override var hashValue: Int { return -904739208 }
-    
-    override func copy() -> AnyObject {
-        return CurrentThreadSchedulerKeyInstance
-    }
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        return CurrentThreadSchedulerKeyInstance
-    }
-}
+typealias CurrentThreadSchedulerValue       = NSString
+let CurrentThreadSchedulerValueInstance     = "RxSwift.CurrentThreadScheduler.SchedulerKey" as NSString
 
-class CurrentThreadSchedulerQueueKey : NSObject, NSCopying {
-    override func isEqual(object: AnyObject?) -> Bool {
-        return object === CurrentThreadSchedulerQueueKeyInstance
-    }
-    
-    override var hashValue: Int { return -904739207 }
-    
-    override func copy() -> AnyObject {
-        return CurrentThreadSchedulerQueueKeyInstance
-    }
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        return CurrentThreadSchedulerQueueKeyInstance
-    }
-}
 
-/**
-Represents an object that schedules units of work on the current thread.
-
-This is the default scheduler for operators that generate elements.
-
-This scheduler is also sometimes called `trampoline scheduler`.
-*/
+/// Represents an object that schedules units of work on the current thread.
+///
+/// This is the default scheduler for operators that generate elements.
+///
+/// This scheduler is also sometimes called `trampoline scheduler`.
 public class CurrentThreadScheduler : ImmediateSchedulerType {
     typealias ScheduleQueue = RxMutableBox<Queue<ScheduledItemType>>
-    
-    /**
-    The singleton instance of the current thread scheduler.
-    */
+
+    /// The singleton instance of the current thread scheduler.
     public static let instance = CurrentThreadScheduler()
-    
+
     static var queue : ScheduleQueue? {
         get {
-            return NSThread.currentThread().threadDictionary[CurrentThreadSchedulerQueueKeyInstance] as? ScheduleQueue
+            return Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerQueueKeyInstance)
         }
         set {
-            let threadDictionary = NSThread.currentThread().threadDictionary
-            if let newValue = newValue {
-                threadDictionary[CurrentThreadSchedulerQueueKeyInstance] = newValue
-            }
-            else {
-                threadDictionary.removeObjectForKey(CurrentThreadSchedulerQueueKeyInstance)
-            }
+            Thread.setThreadLocalStorageValue(newValue, forKey: CurrentThreadSchedulerQueueKeyInstance)
         }
     }
-    
-    /**
-    Gets a value that indicates whether the caller must call a `schedule` method.
-    */
-    public static private(set) var isScheduleRequired: Bool {
+
+    /// Gets a value that indicates whether the caller must call a `schedule` method.
+    public static fileprivate(set) var isScheduleRequired: Bool {
         get {
-            return NSThread.currentThread().threadDictionary[CurrentThreadSchedulerKeyInstance] == nil
+            let value: CurrentThreadSchedulerValue? = Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerKeyInstance)
+            return value == nil
         }
-        set(value) {
-            if value {
-                NSThread.currentThread().threadDictionary.removeObjectForKey(CurrentThreadSchedulerKeyInstance)
-            }
-            else {
-                NSThread.currentThread().threadDictionary[CurrentThreadSchedulerKeyInstance] = CurrentThreadSchedulerKeyInstance
-            }
+        set(isScheduleRequired) {
+            Thread.setThreadLocalStorageValue(isScheduleRequired ? nil : CurrentThreadSchedulerValueInstance, forKey: CurrentThreadSchedulerKeyInstance)
         }
     }
-    
+
     /**
     Schedules an action to be executed as soon as possible on current thread.
-    
+
     If this method is called on some thread that doesn't have `CurrentThreadScheduler` installed, scheduler will be
     automatically installed and uninstalled after all work is performed.
-    
+
     - parameter state: State passed to the action to be executed.
     - parameter action: Action to be executed.
     - returns: The disposable object used to cancel the scheduled action (best effort).
     */
-    public func schedule<StateType>(state: StateType, action: (StateType) -> Disposable) -> Disposable {
+    public func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
         if CurrentThreadScheduler.isScheduleRequired {
             CurrentThreadScheduler.isScheduleRequired = false
 
@@ -115,8 +72,8 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
                 return disposable
             }
 
-            while let latest = queue.value.tryDequeue() {
-                if latest.disposed {
+            while let latest = queue.value.dequeue() {
+                if latest.isDisposed {
                     continue
                 }
                 latest.invoke()
@@ -138,6 +95,7 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
 
         let scheduledItem = ScheduledItem(action: action, state: state)
         queue.value.enqueue(scheduledItem)
+
         return scheduledItem
     }
 }

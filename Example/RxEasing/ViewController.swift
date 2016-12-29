@@ -9,11 +9,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxOptional
 import RxEasing
 
 import JBChartView
 
-public class ViewController: UIViewController, JBLineChartViewDataSource, JBLineChartViewDelegate {
+open class ViewController: UIViewController, JBLineChartViewDataSource, JBLineChartViewDelegate {
 
     @IBOutlet weak var lineChart: JBLineChartView!
     
@@ -25,29 +26,29 @@ public class ViewController: UIViewController, JBLineChartViewDataSource, JBLine
     @IBOutlet weak var easingFunctionLabel: UILabel!
     
     var disposeBag = DisposeBag()
-    var easingFunction = RxEasing.easingFunctionForType(.LinearInterpolation)
+    var easingFunction = RxEasing.easingFunctionForType(easingType: .LinearInterpolation)
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         self.lineChart.dataSource = self
         self.lineChart.delegate = self
         
-        let easingTypeObservable = self.easingFunctionSlider.rx_value.map {
+        let easingTypeObservable = self.easingFunctionSlider.rx.value.map {
             [unowned self] (value:Float) -> RxEasing.EasingType in
             let easingType = RxEasing.EasingType(rawValue: Int(value * Float(RxEasing.EasingType.NumTypes.rawValue)) % RxEasing.EasingType.NumTypes.rawValue)!
-            self.easingFunctionLabel.rx_text.onNext(self.easingFunctionDisplayName(easingType))
+            self.easingFunctionLabel.rx.text.onNext(self.easingFunctionDisplayName(easingType))
             return easingType
         }
         
         let easingFunction = easingTypeObservable.map {
             (easingType:RxEasing.EasingType) -> RxEasing.EasingFunction in
 
-            let easingFunction = RxEasing.easingFunctionForType(easingType)
+            let easingFunction = RxEasing.easingFunctionForType(easingType: easingType)
             return easingFunction
         }
         
-        let rangeMin = self.rangeMinTextField.rx_text.map {
+        let rangeMin = self.rangeMinTextField.rx.text.filterNil().map {
             (stringValue:String) -> Double in
             if let value = Double(stringValue) {
                 return value
@@ -55,7 +56,7 @@ public class ViewController: UIViewController, JBLineChartViewDataSource, JBLine
             return 0.0
         }
 
-        let rangeMax = self.rangeMaxTextField.rx_text.map {
+        let rangeMax = self.rangeMaxTextField.rx.text.filterNil().map {
             (stringValue:String) -> Double in
             if let value = Double(stringValue) {
                 return value
@@ -63,42 +64,55 @@ public class ViewController: UIViewController, JBLineChartViewDataSource, JBLine
             return 1.0
         }
 
-        let inputValues = inputValueSlider.rx_value.map {
+        let inputValues = inputValueSlider.rx.value.map {
             [unowned self] (value:Float) -> Double in
             self.view.endEditing(true)
             return Double(value)
         }
         
         let easedNormalizedValues = easingFunction.map {
-            (easingFunction:RxEasing.EasingFunction) -> Observable<Double> in
-            return RxEasing.easeValues(inputValues, withRangeMin: 0.0, rangeMax: 1.0, easing: easingFunction)
+            (easingFunction:@escaping RxEasing.EasingFunction) -> Observable<Double> in
+            return RxEasing.easeValues(values: inputValues, withRangeMin: 0.0, rangeMax: 1.0, easing: easingFunction)
         }
         .switchLatest()
         
-        combineLatest(
+        Observable.combineLatest(
             easedNormalizedValues,
             rangeMin,
             rangeMax
         ) {
             (normalizedValue, min, max) -> Double in
-            return RxEasing.scaleNormalizedToRange(normalizedValue, min: min, max: max)
+            return RxEasing.scaleNormalizedToRange(normalized: normalizedValue, min: min, max: max)
         }
-        .subscribeNext {
-            (value:Double) in
-            let displayValue = NSString(format: "%0.3f", value)
-            self.outputValueLabel.rx_text.onNext(displayValue as String)
-            self.lineChart.reloadData()
-        }
+        .subscribe(
+            onNext: {
+                [unowned self] (value:Double) in
+                let displayValue = NSString(format: "%0.3f", value)
+                self.outputValueLabel.rx.text.onNext(displayValue as String)
+                self.lineChart.reloadData()
+            }
+        )
         .addDisposableTo(self.disposeBag)
         
-        easingFunction.subscribeNext {
-            (function:RxEasing.EasingFunction) -> Void in
-            self.easingFunction = function
-        }
+        easingFunction.subscribe(
+            onNext: {
+                [unowned self] (function:@escaping RxEasing.EasingFunction) -> Void in
+                self.easingFunction = function
+            }
+        )
         .addDisposableTo(self.disposeBag)
     }
 
-    func easingFunctionDisplayName(easingType:RxEasing.EasingType) -> String {
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.lineChart.reloadData()
+    }
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    func easingFunctionDisplayName(_ easingType:RxEasing.EasingType) -> String {
         switch easingType {
         case .NoInterpolation:
             return "No Interpolation"
@@ -170,11 +184,11 @@ public class ViewController: UIViewController, JBLineChartViewDataSource, JBLine
     }
     // MARK: - JBLineChartDataSource
     
-    public func numberOfLinesInLineChartView(lineChartView: JBLineChartView!) -> UInt {
+    open func numberOfLines(in lineChartView: JBLineChartView!) -> UInt {
         return 2
     }
     
-    public func lineChartView(lineChartView: JBLineChartView!, colorForLineAtLineIndex lineIndex: UInt) -> UIColor! {
+    open func lineChartView(_ lineChartView: JBLineChartView!, colorForLineAtLineIndex lineIndex: UInt) -> UIColor! {
         switch lineIndex {
         case 1:
             return UIColor(red: 253.0 / 255.0, green: 133.0 / 255.0, blue: 9.0 / 255.0, alpha: 1.0)
@@ -183,11 +197,11 @@ public class ViewController: UIViewController, JBLineChartViewDataSource, JBLine
         }
     }
     
-    public func lineChartView(lineChartView: JBLineChartView!, numberOfVerticalValuesAtLineIndex lineIndex: UInt) -> UInt {
+    open func lineChartView(_ lineChartView: JBLineChartView!, numberOfVerticalValuesAtLineIndex lineIndex: UInt) -> UInt {
         return UInt(self.lineChart.bounds.size.width)
     }
     
-    public func lineChartView(lineChartView: JBLineChartView!, verticalValueForHorizontalIndex horizontalIndex: UInt, atLineIndex lineIndex: UInt) -> CGFloat {
+    open func lineChartView(_ lineChartView: JBLineChartView!, verticalValueForHorizontalIndex horizontalIndex: UInt, atLineIndex lineIndex: UInt) -> CGFloat {
 
         let time:Double
         

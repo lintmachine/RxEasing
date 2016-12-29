@@ -3,25 +3,24 @@
 //  RxSwift
 //
 //  Created by Krunoslav Zaher on 6/14/15.
-//  Copyright (c) 2015 Krunoslav Zaher. All rights reserved.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
 
-class DelaySubscriptionSink<ElementType, O: ObserverType, S: SchedulerType where O.E == ElementType>
-    : Sink<O>
-    , ObserverType {
-    typealias Parent = DelaySubscription<ElementType, S>
+class DelaySubscriptionSink<O: ObserverType>
+    : Sink<O>, ObserverType {
     typealias E = O.E
+    typealias Parent = DelaySubscription<E>
     
     private let _parent: Parent
     
-    init(parent: Parent, observer: O) {
+    init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
-        super.init(observer: observer)
+        super.init(observer: observer, cancel: cancel)
     }
     
-    func on(event: Event<E>) {
+    func on(_ event: Event<E>) {
         forwardOn(event)
         if event.isStopEvent {
             dispose()
@@ -30,25 +29,23 @@ class DelaySubscriptionSink<ElementType, O: ObserverType, S: SchedulerType where
     
 }
 
-class DelaySubscription<Element, S: SchedulerType>: Producer<Element> {
-    typealias TimeInterval = S.TimeInterval
-    
+class DelaySubscription<Element>: Producer<Element> {
     private let _source: Observable<Element>
-    private let _dueTime: TimeInterval
-    private let _scheduler: S
+    private let _dueTime: RxTimeInterval
+    private let _scheduler: SchedulerType
     
-    init(source: Observable<Element>, dueTime: TimeInterval, scheduler: S) {
+    init(source: Observable<Element>, dueTime: RxTimeInterval, scheduler: SchedulerType) {
         _source = source
         _dueTime = dueTime
         _scheduler = scheduler
     }
     
-    override func run<O : ObserverType where O.E == Element>(observer: O) -> Disposable {
-        let sink = DelaySubscriptionSink(parent: self, observer: observer)
-        sink.disposable = _scheduler.scheduleRelative((), dueTime: _dueTime) { _ in
+    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+        let sink = DelaySubscriptionSink(parent: self, observer: observer, cancel: cancel)
+        let subscription = _scheduler.scheduleRelative((), dueTime: _dueTime) { _ in
             return self._source.subscribe(sink)
         }
 
-        return sink
+        return (sink: sink, subscription: subscription)
     }
 }
