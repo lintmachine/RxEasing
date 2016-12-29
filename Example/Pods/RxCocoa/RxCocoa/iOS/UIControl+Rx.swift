@@ -14,87 +14,91 @@ import RxSwift
 #endif
 import UIKit
 
-extension UIControl {
+extension Reactive where Base: UIControl {
     
-    /**
-    Bindable sink for `enabled` property.
-    */
-    public var rx_enabled: AnyObserver<Bool> {
-        return AnyObserver { [weak self] event in
-            MainScheduler.ensureExecutingOnScheduler()
-            
-            switch event {
-            case .Next(let value):
-                self?.enabled = value
-            case .Error(let error):
-                bindingErrorToInterface(error)
-                break
-            case .Completed:
-                break
-            }
+    /// Bindable sink for `enabled` property.
+    public var isEnabled: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver(UIElement: self.base) { control, value in
+            control.isEnabled = value
         }
     }
 
-    /**
-    Reactive wrapper for target action pattern.
-    
-    - parameter controlEvents: Filter for observed event types.
-    */
-    public func rx_controlEvent(controlEvents: UIControlEvents) -> ControlEvent<Void> {
-        let source: Observable<Void> = Observable.create { [weak self] observer in
+    /// Bindable sink for `selected` property.
+    public var isSelected: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver(UIElement: self.base) { control, selected in
+            control.isSelected = selected
+        }
+    }
+
+    /// Reactive wrapper for target action pattern.
+    ///
+    /// - parameter controlEvents: Filter for observed event types.
+    public func controlEvent(_ controlEvents: UIControlEvents) -> ControlEvent<Void> {
+        let source: Observable<Void> = Observable.create { [weak control = self.base] observer in
             MainScheduler.ensureExecutingOnScheduler()
 
-            guard let control = self else {
-                observer.on(.Completed)
-                return NopDisposable.instance
+            guard let control = control else {
+                observer.on(.completed)
+                return Disposables.create()
             }
 
             let controlTarget = ControlTarget(control: control, controlEvents: controlEvents) {
                 control in
-                observer.on(.Next())
+                observer.on(.next())
             }
             
-            return AnonymousDisposable {
-                controlTarget.dispose()
-            }
-        }.takeUntil(rx_deallocated)
-        
+            return Disposables.create(with: controlTarget.dispose)
+        }.takeUntil(deallocated)
+
         return ControlEvent(events: source)
     }
 
-    func rx_value<T: Equatable>(getter getter: () -> T, setter: T -> Void) -> ControlProperty<T> {
-        let source: Observable<T> = Observable.create { [weak self] observer in
-            guard let control = self else {
-                observer.on(.Completed)
-                return NopDisposable.instance
-            }
+    /// This is internal convenience method
+    /// https://github.com/ReactiveX/RxSwift/issues/681
+    /// In case similar behavior is externally needed, one can use the following snippet
+    ///
+    /// ```swift
+    /// extension UIControl {
+    ///     static func valuePublic<T, ControlType: UIControl>(_ control: ControlType, getter:  @escaping (ControlType) -> T, setter: @escaping (ControlType, T) -> ()) -> ControlProperty<T> {
+    ///        let values: Observable<T> = Observable.deferred { [weak control] in
+    ///            guard let existingSelf = control else {
+    ///                return Observable.empty()
+    ///            }
+    ///
+    ///            return (existingSelf as UIControl).rx.controlEvent([.allEditingEvents, .valueChanged])
+    ///                .flatMap { _ in
+    ///                    return control.map { Observable.just(getter($0)) } ?? Observable.empty()
+    ///                }
+    ///                .startWith(getter(existingSelf))
+    ///        }
+    ///        return ControlProperty(values: values, valueSink: UIBindingObserver(UIElement: control) { control, value in
+    ///            setter(control, value)
+    ///        })
+    ///    }
+    ///}
+    ///```
+    static func value<C: UIControl, T>(_ control: C, getter: @escaping (C) -> T, setter: @escaping (C, T) -> Void) -> ControlProperty<T> {
+        let source: Observable<T> = Observable.create { [weak weakControl = control] observer in
+                guard let control = weakControl else {
+                    observer.on(.completed)
+                    return Disposables.create()
+                }
 
-            observer.on(.Next(getter()))
+                observer.on(.next(getter(control)))
 
-            let controlTarget = ControlTarget(control: control, controlEvents: [.AllEditingEvents, .ValueChanged]) { control in
-                observer.on(.Next(getter()))
+                let controlTarget = ControlTarget(control: control, controlEvents: [.allEditingEvents, .valueChanged]) { _ in
+                    if let control = weakControl {
+                        observer.on(.next(getter(control)))
+                    }
+                }
+                
+                return Disposables.create(with: controlTarget.dispose)
             }
-            
-            return AnonymousDisposable {
-                controlTarget.dispose()
-            }
-        }
-            .distinctUntilChanged()
-            .takeUntil(rx_deallocated)
-        
-        return ControlProperty<T>(values: source, valueSink: AnyObserver { event in
-            MainScheduler.ensureExecutingOnScheduler()
+            .takeUntil((control as NSObject).rx.deallocated)
 
-            switch event {
-            case .Next(let value):
-                setter(value)
-            case .Error(let error):
-                bindingErrorToInterface(error)
-                break
-            case .Completed:
-                break
-            }
-        })
+        let bindingObserver = UIBindingObserver(UIElement: control, binding: setter)
+
+        return ControlProperty<T>(values: source, valueSink: bindingObserver)
     }
 
 }

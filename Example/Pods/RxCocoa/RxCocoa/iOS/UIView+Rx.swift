@@ -1,6 +1,6 @@
 //
 //  UIView+Rx.swift
-//  Rx
+//  RxCocoa
 //
 //  Created by Krunoslav Zaher on 12/6/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
@@ -14,42 +14,18 @@ import UIKit
 import RxSwift
 #endif
 
-extension UIView {
-    /**
-     Bindable sink for `hidden` property.
-     */
-    public var rx_hidden: AnyObserver<Bool> {
-        return AnyObserver { [weak self] event in
-            MainScheduler.ensureExecutingOnScheduler()
-
-            switch event {
-            case .Next(let value):
-                self?.hidden = value
-            case .Error(let error):
-                bindingErrorToInterface(error)
-                break
-            case .Completed:
-                break
-            }
+extension Reactive where Base: UIView {
+    /// Bindable sink for `hidden` property.
+    public var isHidden: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver(UIElement: self.base) { view, hidden in
+            view.isHidden = hidden
         }
     }
 
-    /**
-     Bindable sink for `alpha` property.
-     */
-    public var rx_alpha: AnyObserver<CGFloat> {
-        return AnyObserver { [weak self] event in
-            MainScheduler.ensureExecutingOnScheduler()
-
-            switch event {
-            case .Next(let value):
-                self?.alpha = value
-            case .Error(let error):
-                bindingErrorToInterface(error)
-                break
-            case .Completed:
-                break
-            }
+    /// Bindable sink for `alpha` property.
+    public var alpha: UIBindingObserver<Base, CGFloat> {
+        return UIBindingObserver(UIElement: self.base) { view, alpha in
+            view.alpha = alpha
         }
     }
 }

@@ -74,7 +74,7 @@ public class RxEasing : NSObject {
     public class func easingFunctionForType(typeObservable:Observable<EasingType>) -> Observable<EasingFunction> {
         return typeObservable.map {
             (easingType:EasingType) -> EasingFunction in
-            return easingFunctionForType(easingType)
+            return easingFunctionForType(easingType: easingType)
         }
     }
     
@@ -152,10 +152,10 @@ public class RxEasing : NSObject {
     
     // Apply the easing function to a stream of values. 
     // Input stream values are expected to be within the range specified by min and max. Output values are in the normalized range of 0.0 - 1.0.
-    public class func easeValues(values:Observable<Double>, withRangeMin min:Double, rangeMax max:Double, easing:EasingFunction) -> Observable<Double> {
+    public class func easeValues(values:Observable<Double>, withRangeMin min:Double, rangeMax max:Double, easing:@escaping EasingFunction) -> Observable<Double> {
         return values.map {
             (value:Double) -> Double in
-            return easing(normalizeValueWithinRange(value, min: min, max: max))
+            return easing(normalizeValueWithinRange(value: value, min: min, max: max))
         }
     }
 
@@ -164,7 +164,7 @@ public class RxEasing : NSObject {
     public class func scaleNormalizedValues(values:Observable<Double>, toRangeMin min:Double, rangeMax max:Double) -> Observable<Double> {
         return values.map {
             (value:Double) -> Double in
-            return scaleNormalizedToRange(value, min: min, max: max)
+            return scaleNormalizedToRange(normalized: value, min: min, max: max)
         }
     }
     

@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -21,14 +25,14 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M9r-wL-suG" customClass="JBLineChartView">
                                 <rect key="frame" x="16" y="332" width="288" height="216"/>
-                                <color key="backgroundColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="M9r-wL-suG" secondAttribute="height" multiplier="4:3" id="xy5-c7-dvA"/>
                                 </constraints>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="2NB-sv-teP">
                                 <rect key="frame" x="14" y="68" width="292" height="31"/>
-                                <color key="maximumTrackTintColor" red="0.85658478739999999" green="0.95103353260000001" blue="0.99474674460000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="maximumTrackTintColor" red="0.85658478739999999" green="0.95103353260000001" blue="0.99474674460000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </slider>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.0" borderStyle="roundedRect" placeholder="Range Min" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cZ1-tn-Yv3">
                                 <rect key="frame" x="16" y="142" width="90" height="30"/>
@@ -41,48 +45,48 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqv-ob-mC5">
-                                <rect key="frame" x="280" y="303" width="24" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.076461829245090485" green="0.59036862850189209" blue="0.94450443983078003" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="282" y="306" width="22" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.076461829245090485" green="0.59036862850189209" blue="0.94450443983078003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Easing Function:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mk-tu-2cO">
-                                <rect key="frame" x="16" y="40" width="126" height="20"/>
+                                <rect key="frame" x="16" y="40" width="132.5" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Output Value:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IzX-Lq-Vfm">
-                                <rect key="frame" x="16" y="304" width="104" height="20"/>
+                                <rect key="frame" x="16" y="305" width="109.5" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Range:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1S-LM-mxt">
-                                <rect key="frame" x="16" y="114" width="53" height="20"/>
+                                <rect key="frame" x="16" y="114" width="56" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Linear" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LGL-gQ-00B">
                                 <rect key="frame" x="261" y="41" width="43" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="d0S-Xz-2j5">
                                 <rect key="frame" x="14" y="216" width="292" height="31"/>
-                                <color key="maximumTrackTintColor" red="0.85658478739999999" green="0.95103353260000001" blue="0.99474674460000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="maximumTrackTintColor" red="0.85658478739999999" green="0.95103353260000001" blue="0.99474674460000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Value:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shx-bG-1TP">
-                                <rect key="frame" x="16" y="188" width="90" height="20"/>
+                                <rect key="frame" x="16" y="188" width="95" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.076461829250000002" green="0.59036862850000005" blue="0.94450443979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.033332433551549911" green="0.26121649146080017" blue="0.53727978467941284" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="tintColor" red="0.99075698852539062" green="0.52262759208679199" blue="0.033161621540784836" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.033332433551549911" green="0.26121649146080017" blue="0.53727978467941284" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.99075698852539062" green="0.52262759208679199" blue="0.033161621540784836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="C1S-LM-mxt" firstAttribute="top" secondItem="2NB-sv-teP" secondAttribute="bottom" constant="16" id="04c-zX-GLm"/>
                             <constraint firstItem="C1S-LM-mxt" firstAttribute="leading" secondItem="2NB-sv-teP" secondAttribute="leading" id="3wK-Kp-t9Z"/>
@@ -113,8 +117,12 @@
                             <constraint firstItem="M9r-wL-suG" firstAttribute="top" secondItem="IzX-Lq-Vfm" secondAttribute="bottom" constant="8" id="xL4-9i-Gjk"/>
                             <constraint firstItem="IzX-Lq-Vfm" firstAttribute="leading" secondItem="M9r-wL-suG" secondAttribute="leading" id="xfU-pT-McR"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="xL4-9i-Gjk"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="easingFunctionLabel" destination="LGL-gQ-00B" id="eub-ur-BC7"/>
                         <outlet property="easingFunctionSlider" destination="2NB-sv-teP" id="jDn-hB-UBn"/>
