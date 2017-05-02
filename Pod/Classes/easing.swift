@@ -17,8 +17,8 @@
 
 import UIKit
 
-let M_PI_2_f = Double(M_PI_2)
-let M_PI_f = Double(M_PI)
+let M_PI_2_f = Double.pi / 2.0
+let M_PI_f = Double.pi
 
 typealias AHEasingFunction = (Double)->Double
 
