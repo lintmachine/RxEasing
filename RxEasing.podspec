@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RxEasing"
-  s.version          = "2.0.2"
+  s.version          = "2.0.3"
   s.summary          = "An easing library for use with RxSwift."
 
   s.description      = <<-DESC
@@ -26,5 +26,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
 
-  s.dependency 'RxSwift', '~> 3.1'
+  s.dependency 'RxSwift', '~> 3.4'
 end

@@ -31,7 +31,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## RxEasing
 
-Copyright (c) 2015 Chris D'Annunzio <cdann@lintmachine.com>
+Copyright (c) 2015-2016 cdann <cdann@lintmachine.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

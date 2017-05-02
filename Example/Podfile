@@ -1,9 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
+platform :ios, '8.0'
 
 target 'RxEasing_Example' do
   pod "RxEasing", :path => "../"
-  pod 'RxCocoa', '~> 3.1'
+  pod 'RxCocoa', '~> 3.4'
   pod 'RxOptional', '~> 3.1'
   pod 'JBChartView', '~> 2.8'
 end
