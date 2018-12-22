@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RxEasing"
-  s.version          = "2.0.4"
+  s.version          = "2.5.0"
   s.summary          = "An easing library for use with RxSwift."
 
   s.description      = <<-DESC
@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/lintmachine/RxEasing.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/lintmachine'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
 
-  s.dependency 'RxSwift', '~> 3.4'
+  s.dependency 'RxSwift', '~> 4.4'
 end

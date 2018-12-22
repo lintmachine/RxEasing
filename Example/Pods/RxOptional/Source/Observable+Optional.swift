@@ -20,6 +20,20 @@ public extension ObservableType where E: OptionalType {
         }
     }
 
+    /** 
+    
+    Filters out `nil` elements. Similar to `filterNil`, but keeps the elements of the observable
+    wrapped in Optionals. This is often useful for binding to a UIBindingObserver with an optional type.
+
+    - returns: `Observable` of source `Observable`'s elements, with `nil` elements filtered out.
+    */
+
+    public func filterNilKeepOptional() -> Observable<E> {
+        return self.filter { element -> Bool in
+            return element.value != nil
+        }
+    }
+
     /**
      Throws an error if the source `Observable` contains an empty element; otherwise returns original source `Observable` of non-empty elements.
 
@@ -74,6 +88,7 @@ public extension ObservableType where E: OptionalType {
     }
 }
 
+#if !swift(>=3.3) || (swift(>=4.0) && !swift(>=4.1))
 public extension ObservableType where E: OptionalType, E.Wrapped: Equatable {
     /**
      Returns an observable sequence that contains only distinct contiguous elements according to equality operator.
@@ -89,3 +104,4 @@ public extension ObservableType where E: OptionalType, E.Wrapped: Equatable {
         }
     }
 }
+#endif

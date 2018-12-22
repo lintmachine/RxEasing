@@ -6,7 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-extension Observable {
+extension ObservableType {
     // MARK: create
 
     /**
@@ -27,10 +27,10 @@ final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, Obse
     typealias Parent = AnonymousObservable<E>
 
     // state
-    private var _isStopped: AtomicInt = 0
+    private var _isStopped = AtomicInt(0)
 
     #if DEBUG
-        fileprivate var _numberOfConcurrentCalls: AtomicInt = 0
+        fileprivate let _synchronizationTracker = SynchronizationTracker()
     #endif
 
     override init(observer: O, cancel: Cancelable) {
@@ -39,22 +39,17 @@ final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, Obse
 
     func on(_ event: Event<E>) {
         #if DEBUG
-            if AtomicIncrement(&_numberOfConcurrentCalls) > 1 {
-                rxFatalError("Warning: Recursive call or synchronization error!")
-            }
-
-            defer {
-                _ = AtomicDecrement(&_numberOfConcurrentCalls)
-        }
+            _synchronizationTracker.register(synchronizationErrorMessage: .default)
+            defer { _synchronizationTracker.unregister() }
         #endif
         switch event {
         case .next:
-            if _isStopped == 1 {
+            if _isStopped.load() == 1 {
                 return
             }
             forwardOn(event)
         case .error, .completed:
-            if AtomicCompareAndSwap(0, 1, &_isStopped) {
+            if _isStopped.fetchOr(1) == 0 {
                 forwardOn(event)
                 dispose()
             }

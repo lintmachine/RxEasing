@@ -92,7 +92,7 @@ open class ViewController: UIViewController, JBLineChartViewDataSource, JBLineCh
                 self.lineChart.reloadData()
             }
         )
-        .addDisposableTo(self.disposeBag)
+            .disposed(by: self.disposeBag)
         
         easingFunction.subscribe(
             onNext: {
@@ -100,7 +100,7 @@ open class ViewController: UIViewController, JBLineChartViewDataSource, JBLineCh
                 self.easingFunction = function
             }
         )
-        .addDisposableTo(self.disposeBag)
+            .disposed(by: self.disposeBag)
     }
 
     open override func viewDidLayoutSubviews() {
