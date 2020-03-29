@@ -12,12 +12,10 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		F4B9741089F0DD4B0E63C6CD /* Pods_RxEasing_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E08DC82889D0E75CE4B4CDB /* Pods_RxEasing_Example.framework */; };
+		8E1E9835A4EA3728D1537DB2 /* Pods_RxEasing_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8686D0326968244ABFF575 /* Pods_RxEasing_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E08DC82889D0E75CE4B4CDB /* Pods_RxEasing_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxEasing_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		39BF119C09B3B35C4372B5EC /* Pods-RxEasing_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEasing_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* RxEasing_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxEasing_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -27,8 +25,10 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		6778E6A13D2576F5563D9FD8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		7223B3D23F13D0083BEDEBCC /* RxEasing.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxEasing.podspec; path = ../RxEasing.podspec; sourceTree = "<group>"; };
-		80B4A24F0DEAADCC5E7DBC4F /* Pods-RxEasing_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEasing_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		87CB2C982A96716E54FC8B65 /* Pods-RxEasing_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEasing_Example.debug.xcconfig"; path = "Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		8F8686D0326968244ABFF575 /* Pods_RxEasing_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxEasing_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0E4463867F229C15D859E2F /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		BCFC37C78941205308BB0B82 /* Pods-RxEasing_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxEasing_Example.release.xcconfig"; path = "Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,21 +36,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4B9741089F0DD4B0E63C6CD /* Pods_RxEasing_Example.framework in Frameworks */,
+				8E1E9835A4EA3728D1537DB2 /* Pods_RxEasing_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B7977AD0377A11394F93B7D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87CB2C982A96716E54FC8B65 /* Pods-RxEasing_Example.debug.xcconfig */,
+				BCFC37C78941205308BB0B82 /* Pods-RxEasing_Example.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for RxEasing */,
 				607FACD11AFB9204008FA782 /* Products */,
-				9DD4BE30BD9C5B7D586EC22F /* Pods */,
-				9B42E449B38EFB72C676D257 /* Frameworks */,
+				4B7977AD0377A11394F93B7D /* Pods */,
+				FCB58507FE1A9DDE7A45BCE5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,21 +104,12 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		9B42E449B38EFB72C676D257 /* Frameworks */ = {
+		FCB58507FE1A9DDE7A45BCE5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E08DC82889D0E75CE4B4CDB /* Pods_RxEasing_Example.framework */,
+				8F8686D0326968244ABFF575 /* Pods_RxEasing_Example.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9DD4BE30BD9C5B7D586EC22F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				80B4A24F0DEAADCC5E7DBC4F /* Pods-RxEasing_Example.debug.xcconfig */,
-				39BF119C09B3B35C4372B5EC /* Pods-RxEasing_Example.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,12 +119,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "RxEasing_Example" */;
 			buildPhases = (
-				3DDE8BCB5D985651D23DAAE1 /* [CP] Check Pods Manifest.lock */,
+				FC6A164C9CBB06FF7DA9D34A /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				2D05CD7B09A88C4B019120CE /* [CP] Embed Pods Frameworks */,
-				BF593DC3119575CEB99F67B6 /* [CP] Copy Pods Resources */,
+				DF8CC97D44F6EC5C32517CC0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -156,6 +156,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -183,49 +184,54 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2D05CD7B09A88C4B019120CE /* [CP] Embed Pods Frameworks */ = {
+		DF8CC97D44F6EC5C32517CC0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/JBChartView/JBChartView.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxEasing/RxEasing.framework",
+				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JBChartView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxEasing.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3DDE8BCB5D985651D23DAAE1 /* [CP] Check Pods Manifest.lock */ = {
+		FC6A164C9CBB06FF7DA9D34A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RxEasing_Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		BF593DC3119575CEB99F67B6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -301,11 +307,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -341,17 +348,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80B4A24F0DEAADCC5E7DBC4F /* Pods-RxEasing_Example.debug.xcconfig */;
+			baseConfigurationReference = 87CB2C982A96716E54FC8B65 /* Pods-RxEasing_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8ZQGAEUG3N;
@@ -360,13 +368,12 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 39BF119C09B3B35C4372B5EC /* Pods-RxEasing_Example.release.xcconfig */;
+			baseConfigurationReference = BCFC37C78941205308BB0B82 /* Pods-RxEasing_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 8ZQGAEUG3N;
@@ -375,7 +382,6 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -28,10 +28,10 @@ import Foundation
 
 import RxSwift
 
-public class RxEasing : NSObject {
-    
+public class RxEasing: NSObject {
+
     public typealias EasingFunction = (Double) -> Double
-    
+
     // Enum of standard easing functions
     public enum EasingType: Int {
         case NoInterpolation = 0
@@ -66,20 +66,20 @@ public class RxEasing : NSObject {
         case BounceEaseIn
         case BounceEaseOut
         case BounceEaseInOut
-        
+
         case NumTypes
     }
-    
+
     // Maps a stream of EasingType values to a stream of easing functions
-    public class func easingFunctionForType(typeObservable:Observable<EasingType>) -> Observable<EasingFunction> {
+    public class func easingFunctionForType(typeObservable: Observable<EasingType>) -> Observable<EasingFunction> {
         return typeObservable.map {
-            (easingType:EasingType) -> EasingFunction in
+            (easingType: EasingType) -> EasingFunction in
             return easingFunctionForType(easingType: easingType)
         }
     }
-    
+
     // Maps an EasingType value to an easing functions
-    public class func easingFunctionForType(easingType:EasingType) -> EasingFunction {
+    public class func easingFunctionForType(easingType: EasingType) -> EasingFunction {
         switch easingType {
         case EasingType.NoInterpolation:
             return NoInterpolation
@@ -149,38 +149,37 @@ public class RxEasing : NSObject {
             return LinearInterpolation
         }
     }
-    
-    // Apply the easing function to a stream of values. 
+
+    // Apply the easing function to a stream of values.
     // Input stream values are expected to be within the range specified by min and max. Output values are in the normalized range of 0.0 - 1.0.
-    public class func easeValues(values:Observable<Double>, withRangeMin min:Double, rangeMax max:Double, easing:@escaping EasingFunction) -> Observable<Double> {
+    public class func easeValues(values: Observable<Double>, withRangeMin min: Double, rangeMax max: Double, easing: @escaping EasingFunction) -> Observable<Double> {
         return values.map {
-            (value:Double) -> Double in
+            (value: Double) -> Double in
             return easing(normalizeValueWithinRange(value: value, min: min, max: max))
         }
     }
 
     // Scale the stream of normalized values to the specified range.
     // Input stream values are expected to be within the normalized range of 0.0 - 1.0. Output values are scaled to the range specified by min and max.
-    public class func scaleNormalizedValues(values:Observable<Double>, toRangeMin min:Double, rangeMax max:Double) -> Observable<Double> {
+    public class func scaleNormalizedValues(values: Observable<Double>, toRangeMin min: Double, rangeMax max: Double) -> Observable<Double> {
         return values.map {
-            (value:Double) -> Double in
+            (value: Double) -> Double in
             return scaleNormalizedToRange(normalized: value, min: min, max: max)
         }
     }
-    
-    public class func scaleNormalizedToRange(normalized:Double, min:Double, max:Double) -> Double {
+
+    public class func scaleNormalizedToRange(normalized: Double, min: Double, max: Double) -> Double {
         let range = max - min
         let distance = normalized * range
         return distance + min
     }
-    
-    public class func normalizeValueWithinRange(value:Double, min:Double, max:Double) -> Double {
+
+    public class func normalizeValueWithinRange(value: Double, min: Double, max: Double) -> Double {
         let range = max - min
         let distance = value - min
         if range > 0.0 {
             return distance / range
-        }
-        else {
+        } else {
             return 0
         }
     }
