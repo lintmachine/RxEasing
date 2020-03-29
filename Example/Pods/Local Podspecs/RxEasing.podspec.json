@@ -1,6 +1,6 @@
 {
   "name": "RxEasing",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "summary": "An easing library for use with RxSwift.",
   "description": "RxEasing provides a few utility functions for applying easing functions to RxSwift Observable streams.",
   "homepage": "https://github.com/lintmachine/RxEasing",
@@ -10,17 +10,17 @@
   },
   "source": {
     "git": "https://github.com/lintmachine/RxEasing.git",
-    "tag": "2.5.0"
+    "tag": "2.6.0"
   },
   "social_media_url": "https://twitter.com/lintmachine",
   "platforms": {
-    "ios": "9.0"
+    "ios": "10.0"
   },
   "requires_arc": true,
   "source_files": "Pod/Classes/**/*",
   "dependencies": {
     "RxSwift": [
-      "~> 4.4"
+      "~> 5.0"
     ]
   }
 }

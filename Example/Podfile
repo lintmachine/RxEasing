@@ -1,10 +1,21 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
-platform :ios, '9.0'
+platform :ios, '10.0'
+
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
+        end
+    end
+end
 
 target 'RxEasing_Example' do
   pod "RxEasing", :path => "../"
-  pod 'RxCocoa', '~> 4.4'
-  pod 'RxOptional', '~> 3.6'
-  pod 'JBChartView', '~> 2.8'
+  pod 'RxCocoa', '~> 5.0'
+  pod 'RxOptional', '~> 4.0'
+  pod 'JBChartView', '~> 3.0'
 end

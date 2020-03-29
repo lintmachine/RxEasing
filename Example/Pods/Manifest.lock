@@ -1,28 +1,29 @@
 PODS:
-  - JBChartView (2.9.1)
-  - RxAtomic (4.4.0)
-  - RxCocoa (4.4.0):
-    - RxSwift (~> 4.0)
-  - RxEasing (2.5.0):
-    - RxSwift (~> 4.4)
-  - RxOptional (3.6.2):
-    - RxCocoa (~> 4.0)
-    - RxSwift (~> 4.0)
-  - RxSwift (4.4.0):
-    - RxAtomic (~> 4.4)
+  - JBChartView (3.0.13)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxEasing (2.6.0):
+    - RxSwift (~> 5.0)
+  - RxOptional (4.1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
 
 DEPENDENCIES:
-  - JBChartView (~> 2.8)
-  - RxCocoa (~> 4.4)
+  - JBChartView (~> 3.0)
+  - RxCocoa (~> 5.0)
   - RxEasing (from `../`)
-  - RxOptional (~> 3.6)
+  - RxOptional (~> 4.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - JBChartView
-    - RxAtomic
     - RxCocoa
     - RxOptional
+    - RxRelay
     - RxSwift
 
 EXTERNAL SOURCES:
@@ -30,13 +31,13 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  JBChartView: ca18e487c3d3ee68753716d41b260106e2859f63
-  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
-  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
-  RxEasing: 35c030d1f0c3b30a8c0d5654723466e2133cd082
-  RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
-  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  JBChartView: ea240dca7b83a92f47d4ae766beb3714753988a1
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxEasing: d3466d3d60ff864826c1b61cebdf733aa6e60774
+  RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: cb3863a84009c89d809e0ce2a7e1c54691ceb8c1
+PODFILE CHECKSUM: 30983760ef141e2e641f99e384c26ebcf88f7fc8
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.9.1

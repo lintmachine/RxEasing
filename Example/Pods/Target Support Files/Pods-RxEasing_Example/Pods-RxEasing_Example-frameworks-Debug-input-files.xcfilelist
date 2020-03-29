@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-RxEasing_Example/Pods-RxEasing_Example-frameworks.sh
+${BUILT_PRODUCTS_DIR}/JBChartView/JBChartView.framework
+${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework
+${BUILT_PRODUCTS_DIR}/RxEasing/RxEasing.framework
+${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework
+${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
+${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework
